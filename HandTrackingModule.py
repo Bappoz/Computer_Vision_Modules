@@ -5,7 +5,7 @@ import time
 
 
 class HandDetector():
-    def __init__(self, mode=False, numHands=2, detectionCon = 0.7, trackingCon=0.7):
+    def __init__(self, mode=False, numHands=2, detectionCon = 0.5, trackingCon=0.5):
         self.mode=mode
         self.numHands=numHands
         self.detectionCon=detectionCon
@@ -49,24 +49,34 @@ class HandDetector():
 
     def findPosition(self, frame, handNo=0, draw=True, drawIds=None):
         lm_list = []
+        handType = None
 
-        if self.results.multi_hand_landmarks:
-            myHand = self.results.multi_hand_landmarks[handNo]
+        if handNo >= len(self.results.multi_hand_landmarks):
+            return [], None
+        
+        myHand = self.results.multi_hand_landmarks[handNo]
 
-            for id, lm in enumerate(myHand.landmark):
-                h, w, c = frame.shape
-                cx, cy = int(lm.x*w), int(lm.y*h)
-                print(id, cx, cy)
-                lm_list.append([id, cx, cy])
-                if draw:
-                    if drawIds is None:
+        try:
+            hand_label = self.results.multi_handedness[handNo].classification[0].label
+            handType = "Right" if hand_label == "Right" else "Left"
+
+        except: 
+            handType = "Left"
+
+        for id, lm in enumerate(myHand.landmark):
+            h, w, c = frame.shape
+            cx, cy = int(lm.x*w), int(lm.y*h)
+            #print(id, cx, cy)
+            lm_list.append([id, cx, cy])
+            if draw:
+                if drawIds is None:
+                    cv2.circle(frame, (cx,cy), 8, (255, 0, 255), cv2.FILLED)
+                else:
+                    ids = drawIds if isinstance(drawIds, (list, tuple)) else [drawIds]
+                    if id in ids:
                         cv2.circle(frame, (cx,cy), 8, (255, 0, 255), cv2.FILLED)
-                    else:
-                        ids = drawIds if isinstance(drawIds, (list, tuple)) else [drawIds]
-                        if id in ids:
-                           cv2.circle(frame, (cx,cy), 8, (255, 0, 255), cv2.FILLED)
 
-        return lm_list
+        return lm_list, handType
         
 
 
