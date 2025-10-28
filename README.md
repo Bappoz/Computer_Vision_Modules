@@ -42,5 +42,5 @@ pip install -r [requirements.txt](http://_vscodecontentref_/0)
 Se encontrar problemas com a detecção de mãos ou dedos, verifique se há boa iluminação e se a câmera está posicionada corretamente.
 
 # Conclusão
-Este projeto demonstra como utilizar a biblioteca MediaPipe para rastreamento de mãos e pode ser expandido para incluir funcionalidades adicionais, como reconhecimento de gestos ou controle de dispositivos. No futuro, ele será parte de um repositório maior, com múltiplos módulos para visão computacional. ``````
+Este projeto demonstra como utilizar a biblioteca MediaPipe para rastreamento de mãos e pode ser expandido para incluir funcionalidades adicionais, como reconhecimento de gestos ou controle de dispositivos. No futuro, ele será parte de um repositório maior, com múltiplos módulos para visão computacional.
 
