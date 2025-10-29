@@ -22,6 +22,7 @@ if capture is None:
 try:
     while True:
         ret, frame = capture.read()
+        frame = cv2.flip(frame,1)
         if not ret or frame is None:
             print("Erro: Nenhum retorno da câmera")
             break
