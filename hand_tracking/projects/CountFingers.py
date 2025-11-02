@@ -1,6 +1,6 @@
 import cv2
 import time
-import HandTrackingModule as htm
+import hand_tracking.modules.HandTrackingModule as htm
 import pyautogui
 
 pTime = 0
