@@ -1,6 +1,12 @@
 import cv2
 import time
-import hand_tracking.modules.HandTrackingModule as htm
+import sys
+import os
+
+# Adiciona o diretório pai ao sys.path para encontrar o módulo hand_tracking
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
+from hand_tracking.modules.HandTrackingModule import HandDetector
 import pyautogui
 
 pTime = 0
@@ -13,7 +19,7 @@ wCam = 640
 hCam = 360
 
 
-detector = htm.HandDetector()
+detector = HandDetector()
 capture = detector.open_camera(wCam=wCam, hCam=hCam)
 if capture is None:
     print("Erro: não foi possivel conectar a camera")
@@ -34,7 +40,7 @@ try:
         if detector.results.multi_hand_landmarks:
             for i in range(len(detector.results.multi_hand_landmarks)):
 
-                landmarks_list, handType = detector.findPosition(frame, handNo=i, draw=False)
+                landmarks_list, handType, bbox = detector.findPosition(frame, handNo=i, draw=False)
                 if len(landmarks_list) != 0:
 
                     current_hand_fingers = []
